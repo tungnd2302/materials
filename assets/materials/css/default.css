@@ -1,0 +1,14 @@
+.w40{
+    width: 40%;
+}
+.w70{
+    width: 70%;
+}
+
+.no_border_radius{
+    border-radius: unset;
+}
+
+.no_boder_left{
+    border-left: unset;
+}
