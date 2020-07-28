@@ -11,7 +11,7 @@
         
         <div class="row">
             <div class="col-md-12">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
             <div class="card">
               <div class="card-header border-transparent">
                 <h3 class="card-title">
@@ -107,7 +107,7 @@
 
                           <div class="form-group pr-4 pl-4">
                               <label for="">Ảnh đại điện</label>
-                              <input type="text" name="thumb" class="form-control" value="">
+                              <input type='file' name="thumb" class="form-control">
                           </div>
                         </div>
                     </div>

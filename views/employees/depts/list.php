@@ -45,6 +45,7 @@
                                   $editDelete = "?controller=" . $this->controllerName . "&action=delete&id=" .$item['id'];
 
                               ?>
+                              
                               <a href="<?php echo $editLink ?>" class="btn btn-primary">
                                 <i class="fa fa-pencil-alt"></i>
                               </a>

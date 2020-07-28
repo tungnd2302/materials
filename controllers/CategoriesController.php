@@ -1,17 +1,18 @@
 <?php 
     require_once('controllers/Controller.php');
     require_once('controllers/Validate.php');
-    require_once('models/Depts.php');
-	class DeptsController extends Controller{
-        public $displayName = 'Quản lý phòng ban';
-        public $listName = 'Phòng ban';
-        public $pathView = 'views/employees/depts/';
-        public $controllerName = 'depts';
+    require_once('models/Categories.php');
+    
+	class CategoriesController extends Controller{
+        public $displayName = 'Quản lý loại vật tư';
+        public $listName = 'Loại vật tư';
+        public $pathView = 'views/goods/categories/';
+        public $controllerName = 'categories';
         public $model;
 
         public function __construct()
         {
-            $this->model = new depts;
+            $this->model = new categories;
         }
         public function list()
         {

@@ -3,12 +3,16 @@
 	require_once('controllers/Validate.php');
 	class Users extends model{
 		public $con;
-		public $searchFields = ['fullname','username','users.id'];
+		public $searchFields = ['fullname','username','users.id','name'];
 		public function __construct()
 		{
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
+			// echo '<pre>';
+			// print_r($request);
+			// echo '</pre>';
+			// die;
 			$con = $this->connection();
 			$querySelect = "SELECT username,fullname,
 									role as rolename,
@@ -20,17 +24,23 @@
 							FROM employees 
 							LEFT JOIN users ON users.id = employees.userid 
 							LEFT JOIN depts ON depts.id = employees.deptid";
+			if($request['enableFilter'] !== 'all'){
+				$querySelect .= ' WHERE	users.enable = ' . "'". $request['enableFilter'] . "'";
+			}
+			$nextQuery = ($request['enableFilter'] !== 'all') ? 'AND' : 'WHERE';
 			if(!empty($request['fieldSearch'])){
 				if($request['fieldSearch'] !== 'all'){
-					$querySelect .= ' WHERE	' . $request['fieldSearch'] . ' LIKE "%' . $request['contentSearch'] . '%"';
+					$querySelect .= " $nextQuery " . $request['fieldSearch'] . ' LIKE "%' . $request['contentSearch'] . '%"';
 				}else{
 					foreach($this->searchFields as $key => $field){
 						if($key == 0){
-							$querySelect .= ' WHERE ' . $field . ' LIKE "%' . $request['contentSearch'] . '%"';
+							$querySelect .= "  $nextQuery ( " . $field . ' LIKE "%' . $request['contentSearch'] . '%"';
 						}else{
 							$querySelect .= ' OR ' . $field . ' LIKE "%' . $request['contentSearch'] . '%"';
 						}
 					}
+					$querySelect .= ' )';
+
 				}
 			}
 			// die($querySelect);
@@ -42,10 +52,32 @@
 			return $users;
 		}
 
-		public function countItems(){
+		public function countItems($request = null){
 			$con = $this->connection();
-			$queryCount = "Select count(enable) as count,enable FROM users GROUP BY enable";
-			// die($queryCount);
+			$queryCount = "Select count(users.enable) as count,users.enable FROM employees 
+							LEFT JOIN users ON users.id = employees.userid 
+							LEFT JOIN depts ON depts.id = employees.deptid ";
+			// if($request['enableFilter'] !== 'all'){
+			// 	$queryCount .= ' WHERE	users.enable = ' . "'". $request['enableFilter'] . "'";
+			// }
+			$nextQuery = ($request['enableFilter'] !== 'all') ? 'AND' : 'WHERE';
+			if(!empty($request['fieldSearch'])){
+				if($request['fieldSearch'] !== 'all'){
+					$queryCount .= " WHERE " . $request['fieldSearch'] . ' LIKE "%' . $request['contentSearch'] . '%"';
+				}else{
+					foreach($this->searchFields as $key => $field){
+						if($key == 0){
+							$queryCount .= " WHERE ( " . $field . ' LIKE "%' . $request['contentSearch'] . '%"';
+						}else{
+							$queryCount .= ' OR ' . $field . ' LIKE "%' . $request['contentSearch'] . '%"';
+						}
+					}
+					$queryCount .= ' )';
+				}
+			}
+			$queryCount .= ' GROUP BY users.enable';
+			// die($queryCount);	
+			$count = 0;
 			$result = mysqli_query($this->con,$queryCount);
 			if(mysqli_num_rows($result) > 0){
 				$count = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -81,7 +113,7 @@
 		public function store($request,$action){
 			if($action == 'create'){
 				$username = $request['username'];
-				$password = $request['password'];
+				$password = md5($request['password']);
 				$enable = $request['enable'];
 				$created = date('d-m-Y',time());
 				$createdby = "Nguyễn Đức Tùng";
@@ -112,6 +144,9 @@
 			$thumb = $request['thumb'];
 			$role = $request['role'];
 			if($action == 'create'){
+				if(!empty($request['thumb']['filename'])){
+					$thumb = $request['thumb']['filename'];
+				}
 				$userid = $request['userid'];
 				$queryInsert = "INSERT INTO employees(userid,fullname,deptid,birthday,address,email,thumb,role) 
 								VALUES ($userid,'$fullname',$deptid,'$birthday','$address','$email','$thumb','$role')";
@@ -126,11 +161,14 @@
 												birthday   = '$birthday',
 												address    = '$address',
 												email      = '$email',
-												thumb      = '$thumb',
-												role       = '$role'
-								where userid = $userid ";
-				$result = mysqli_query($this->con,$queryUpdate);
+												role       = '$role' ";
+				if(!empty($request['thumb']['filename'])){
+					$queryUpdate .= ", thumb ='". $request['thumb']['filename'] ."' ";
+				}
+				$queryUpdate .= "where userid = $userid ";
 				// echo $queryUpdate;
+				// die;
+				$result = mysqli_query($this->con,$queryUpdate);
 				// die;
 				return $result;
 			}
@@ -157,6 +195,22 @@
 			$id   = $request['id'];
 			$queryDelete = "DELETE FROM users WHERE ID =". $id;
 			$result = mysqli_query($this->con,$queryDelete);
+			return $result;
+		}
+
+		public function resetPassword($request){
+			// echo '<pre>';
+			// print_r($request);
+			// echo '</pre>';
+			// die;
+			$password = md5($request['password']);
+			$userid = $request['id'];
+			$queryUpdate = "UPDATE users SET password  = '$password' where id = $userid";
+			// echo $queryUpdate;
+			// die;
+			// die;
+			$result = mysqli_query($this->con,$queryUpdate);
+			// die;
 			return $result;
 		}
 

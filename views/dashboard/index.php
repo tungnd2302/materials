@@ -157,6 +157,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                </div>
             </div>
+
+            <div class="col-md-3">
+               <div class="dashboard-item p-4">
+                    <div class="border-dark bg-white text-center" style="border-radius:40px;">
+                            <img src="assets/materials/images/Dashboard_icon/goods.png" alt="" style="width:90px;height:90px;" class="img-fluid w40">
+                            <p class="mt-3">
+                                <a href="?controller=categories&action=list">Quản lý mặt hàng</a>
+                            </p>
+                    </div>
+               </div>
+            </div>
+
         </div>
       </div><!-- /.container-fluid -->
     </div>

@@ -1,6 +1,7 @@
 <?php 
     require_once('models/Depts.php');
     require_once('models/Users.php');
+    require_once('models/Categories.php');
     
     class Validate{
         public static function Store($request,$controllerName){
@@ -37,9 +38,28 @@
                 if(isset($request['fullname']) && strlen($request['fullname']) < 10){
                     return 'Fullname không dưới 10 ký tự';
                 }
-
-
+                $typeThumbAccept = ['image/jpeg','image/png'];
+                if(!empty($request['thumb']['name'])){
+                    if(!in_array($request['thumb']['type'],$typeThumbAccept)){
+                        return 'Ảnh tải lên chưa đúng định dạng';
+                    }
+                }
             }
+
+            if($controllerName == 'categories'){
+                $name = $request['name'];
+                if(strlen($name) < 4){
+                    return 'Tên loại mặt hàng không dưới 4 ký tự';
+                }else{
+                    $categories = new Categories;
+                    $item = $categories->checkUniqueName($request);
+                    if(count($item) > 0){
+                        return 'Tồn tại loại mặt hàng';
+                    }
+                }
+            }
+
+
 
             
         }

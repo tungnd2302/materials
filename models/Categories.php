@@ -1,16 +1,16 @@
 <?php 
-	require_once('models/model.php');
-	class Depts extends model{
+    require_once('models/model.php');
+	class Categories extends model{
 		public $con;
-		public $searchFields = ['name','depts.id'];
+		public $searchFields = ['name','categories.id'];
 		public function __construct()
 		{
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
-			$querySelect = "SELECT * FROM depts";
+			$querySelect = "SELECT * FROM categories";
 			if($request['enableFilter'] !== 'all'){
-				$querySelect .= ' WHERE	depts.enable = ' . "'". $request['enableFilter'] . "'";
+				$querySelect .= ' WHERE	categories.enable = ' . "'". $request['enableFilter'] . "'";
 			}
 			$nextQuery = ($request['enableFilter'] !== 'all') ? 'AND' : 'WHERE';
 			if(!empty($request['fieldSearch'])){
@@ -39,7 +39,7 @@
 
 		public function countItems($request = null){
 			$con = $this->connection();
-			$queryCount = "Select count(depts.enable) as count,depts.enable FROM depts";
+			$queryCount = "Select count(categories.enable) as count,categories.enable FROM categories";
 			// if($request['enableFilter'] !== 'all'){
 			// 	$queryCount .= ' WHERE	users.enable = ' . "'". $request['enableFilter'] . "'";
 			// }
@@ -58,7 +58,7 @@
 					$queryCount .= ' )';
 				}
 			}
-			$queryCount .= ' GROUP BY depts.enable';
+			$queryCount .= ' GROUP BY categories.enable';
 			$count = 0;
 			$result = mysqli_query($this->con,$queryCount);
 			if(mysqli_num_rows($result) > 0){
@@ -70,7 +70,7 @@
 
 		public function findOne($request){
 			$id = $request['id'];
-			$queryGet = "SELECT * FROM depts WHERE id =". $id;
+			$queryGet = "SELECT * FROM categories WHERE id =". $id;
 			$result = mysqli_query($this->con,$queryGet);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
@@ -87,7 +87,7 @@
 				$enable = $request['enable'];
 				$created = date('d-m-Y',time());
 				$createdby = "Nguyễn Đức Tùng";
-				$queryInsert = "INSERT INTO depts(name,enable,created,createdby) VALUES ('$name','$enable','$created','$createdby')";
+				$queryInsert = "INSERT INTO categories(name,enable,created,createdby) VALUES ('$name','$enable','$created','$createdby')";
 				// die($queryInsert);
 				$result = mysqli_query($this->con,$queryInsert);
 				return $result;
@@ -98,7 +98,7 @@
 				$name = ucfirst($request['name']);
 				$enable = $request['enable'];
 				$name = ucfirst($request['name']);
-				$queryUpdate = "UPDATE depts SET name = '$name' , enable = '$enable' where id = $id ";
+				$queryUpdate = "UPDATE categories SET name = '$name' , enable = '$enable' where id = $id ";
 				$result = mysqli_query($this->con,$queryUpdate);
 				return $result;
 			}
@@ -108,9 +108,9 @@
 			$name = $request['name'];
 			$id   = $request['id'];
 			if(empty($id)){
-				$queryGet = "SELECT * FROM depts WHERE name ='$name'";
+				$queryGet = "SELECT * FROM categories WHERE name ='$name'";
 			}else{
-				$queryGet = "SELECT * FROM depts WHERE name ='$name' AND id <> $id";
+				$queryGet = "SELECT * FROM categories WHERE name ='$name' AND id <> $id";
 			}
 			$result = mysqli_query($this->con,$queryGet);
 			$item = [];
@@ -123,7 +123,7 @@
 
 		public function delete($request){
 			$id   = $request['id'];
-			$queryDelete = "DELETE FROM depts WHERE ID =". $id;
+			$queryDelete = "DELETE FROM categories WHERE ID =". $id;
 			$result = mysqli_query($this->con,$queryDelete);
 			return $result;
 		}
@@ -132,19 +132,9 @@
 			$enable = $request['enable'];
 			$id   = $request['id'];
 			$updateEnable = ($enable == 'active') ? 'inactive' : 'active';
-			$queryUpdate = "UPDATE depts SET enable = '$updateEnable' where id = $id ";
+			$queryUpdate = "UPDATE categories SET enable = '$updateEnable' where id = $id ";
 			$result = mysqli_query($this->con,$queryUpdate);
 			return $result;
-		}
-
-		public function getActiveDepts(){
-			$querySelect = "SELECT * FROM depts WHERE enable = 'active'";
-			$result = mysqli_query($this->con,$querySelect);
-			$items = [];
-			if(mysqli_num_rows($result) > 0){
-				$items = mysqli_fetch_all($result, MYSQLI_ASSOC);
-			}
-			return $items;
 		}
 
 
