@@ -18,10 +18,10 @@
                 <table class="table table-border">
                   <thead>
                     <th>#</th>
-                    <th>Tên loại vật tư</th>
-                    <th>Trạng thái</th>
-                    <th>Ngày tạo</th>
-                    <th>Người tạo</th>
+                    <th>Tên vật tư</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Số lượng tồn</th>
+                    <th>Giá nhập vào</th>
                     <th>Thao tác</th>
                   </thead>
                   <tbody>
@@ -29,22 +29,21 @@
                         <?php foreach($items as $key => $item): ?>
                             <tr>
                               <?php
-                                  $name = $item['name'];
-                                  $status   = ($item['enable'] == 'active') ? 'Kích hoạt' : 'Không kích hoạt';
-                                  $created   = $item['created'];
-                                  $createdby   = $item['createdby'];
+                                  $name       = $item['name'];
+                                  $status     = ($item['enable'] == 'active') ? 'Kích hoạt' : 'Không kích hoạt';
+                                  $quanlity   = $item['quanlity'];
+                                  $price      = $item['price'];
                               ?>
                                 <td><?php echo $key + 1  ?></td>
                                 <td><?php echo $name  ?></td>
                                 <td><?php echo $status  ?></td>
-                                <td><?php echo $created  ?></td>
-                                <td><?php echo $createdby  ?></td>
+                                <td><?php echo $quanlity  ?></td>
+                                <td><?php echo $price  ?></td>
                                 <td>
                                   <?php 
                                       $editLink = "?controller=" . $this->controllerName . "&action=update&id=" .$item['id'];
                                       $editChangeStatus = "?controller=" . $this->controllerName . "&action=changeStatus&id=" .$item['id'] . "&enable=" . $item['enable'];
                                       $editDelete = "?controller=" . $this->controllerName . "&action=delete&id=" .$item['id'];
-
                                   ?>
                                   
                                   <a href="<?php echo $editLink ?>" class="btn btn-primary">

@@ -1,25 +1,25 @@
-<?php  require_once('views/goods/layouts/header.php'); ?>
+<?php  require_once('views/exports/layouts/header.php'); ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <?php require_once('views/goods/layouts/breadcrumb.php'); ?>
+    <?php require_once('views/exports/layouts/breadcrumb.php'); ?>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
-        <?php require_once("views/goods/$this->controllerName/filter.php") ?>
+        <?php require_once("views/exports/$this->controllerName/filter.php") ?>
         
         <div class="row">
             <div class="col-md-12">
             <div class="card">
-              <?php require_once("views/goods/layouts/card_header.php") ?>
+              <?php require_once("views/exports/layouts/card_header.php") ?>
               <div class="card-body p-0">
                 <table class="table table-border">
                   <thead>
                     <th>#</th>
-                    <th>Tên loại vật tư</th>
-                    <th>Trạng thái</th>
+                    <th>Mã xuất hàng</th>
+                    <th>Tổng giá trị hàng</th>
                     <th>Ngày tạo</th>
                     <th>Người tạo</th>
                     <th>Thao tác</th>
@@ -89,4 +89,4 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-<?php  require_once('views/goods/layouts/footer.php'); ?>
+<?php  require_once('views/exports/layouts/footer.php'); ?>

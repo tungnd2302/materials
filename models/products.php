@@ -1,16 +1,16 @@
 <?php 
     require_once('models/model.php');
-	class Categories extends model{
+	class Products extends model{
 		public $con;
-		public $searchFields = ['name','categories.id'];
+		public $searchFields = ['name','products.id'];
 		public function __construct()
 		{
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
-			$querySelect = "SELECT * FROM categories";
+			$querySelect = "SELECT * FROM products";
 			if($request['enableFilter'] !== 'all'){
-				$querySelect .= ' WHERE	categories.enable = ' . "'". $request['enableFilter'] . "'";
+				$querySelect .= ' WHERE	products.enable = ' . "'". $request['enableFilter'] . "'";
 			}
 			$nextQuery = ($request['enableFilter'] !== 'all') ? 'AND' : 'WHERE';
 			if(!empty($request['fieldSearch'])){
@@ -39,7 +39,7 @@
 
 		public function countItems($request = null){
 			$con = $this->connection();
-			$queryCount = "Select count(categories.enable) as count,categories.enable FROM categories";
+			$queryCount = "Select count(products.enable) as count,products.enable FROM products";
 			// if($request['enableFilter'] !== 'all'){
 			// 	$queryCount .= ' WHERE	users.enable = ' . "'". $request['enableFilter'] . "'";
 			// }
@@ -58,7 +58,7 @@
 					$queryCount .= ' )';
 				}
 			}
-			$queryCount .= ' GROUP BY categories.enable';
+			$queryCount .= ' GROUP BY products.enable';
 			$count = 0;
 			$result = mysqli_query($this->con,$queryCount);
 			if(mysqli_num_rows($result) > 0){
@@ -70,7 +70,7 @@
 
 		public function findOne($request){
 			$id = $request['id'];
-			$queryGet = "SELECT * FROM categories WHERE id =". $id;
+			$queryGet = "SELECT * FROM products WHERE id =". $id;
 			$result = mysqli_query($this->con,$queryGet);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
@@ -82,23 +82,40 @@
 		
 
 		public function store($request,$action){
+			$name = ucfirst($request['name']);
+			$categoryid = $request['categoryid'];
+			$type = $request['type'];
+			$suplier = $request['suplier'];
+			$quanlity = $request['quanlity'];
+			$price = $request['price'];
+			$enable = $request['enable'];
+			$created = date('d-m-Y',time());
+			$createdby = "Nguyễn Đức Tùng";
 			if($action == 'create'){
-				$name = ucfirst($request['name']);
-				$enable = $request['enable'];
-				$created = date('d-m-Y',time());
-				$createdby = "Nguyễn Đức Tùng";
-				$queryInsert = "INSERT INTO categories(name,enable,created,createdby) VALUES ('$name','$enable','$created','$createdby')";
-				// die($queryInsert);
+				if(!empty($request['thumb']['filename'])){
+					$thumb = $request['thumb']['filename'];
+				}
+				$queryInsert = "INSERT INTO products(name,type,categoryid,suplier,quanlity,price,enable,thumb,created,createdby) 
+											VALUES ('$name','$type','$categoryid','$suplier','$quanlity','$price','$enable','$thumb','$created','$createdby')";
 				$result = mysqli_query($this->con,$queryInsert);
 				return $result;
 			}
 
 			if($action == 'update'){
 				$id = $request['id'];
-				$name = ucfirst($request['name']);
-				$enable = $request['enable'];
-				$name = ucfirst($request['name']);
-				$queryUpdate = "UPDATE categories SET name = '$name' , enable = '$enable' where id = $id ";
+				$queryUpdate = "UPDATE products SET name = '$name' ,
+													type = '$type' , 
+													categoryid = '$categoryid' , 
+													suplier = '$suplier' , 
+													quanlity = '$quanlity' , 
+													price = '$price',
+													enable = '$enable' ";
+				if(!empty($request['thumb']['filename'])){
+					$queryUpdate .= ", thumb ='". $request['thumb']['filename'] ."' ";
+				}
+				$queryUpdate .= "where id = $id ";
+				// echo $queryUpdate;
+				// die;
 				$result = mysqli_query($this->con,$queryUpdate);
 				return $result;
 			}
@@ -108,9 +125,9 @@
 			$name = $request['name'];
 			$id   = $request['id'];
 			if(empty($id)){
-				$queryGet = "SELECT * FROM categories WHERE name ='$name'";
+				$queryGet = "SELECT * FROM products WHERE name ='$name'";
 			}else{
-				$queryGet = "SELECT * FROM categories WHERE name ='$name' AND id <> $id";
+				$queryGet = "SELECT * FROM products WHERE name ='$name' AND id <> $id";
 			}
 			$result = mysqli_query($this->con,$queryGet);
 			$item = [];
@@ -123,7 +140,7 @@
 
 		public function delete($request){
 			$id   = $request['id'];
-			$queryDelete = "DELETE FROM categories WHERE ID =". $id;
+			$queryDelete = "DELETE FROM products WHERE ID =". $id;
 			$result = mysqli_query($this->con,$queryDelete);
 			return $result;
 		}
@@ -132,13 +149,13 @@
 			$enable = $request['enable'];
 			$id   = $request['id'];
 			$updateEnable = ($enable == 'active') ? 'inactive' : 'active';
-			$queryUpdate = "UPDATE categories SET enable = '$updateEnable' where id = $id ";
+			$queryUpdate = "UPDATE products SET enable = '$updateEnable' where id = $id ";
 			$result = mysqli_query($this->con,$queryUpdate);
 			return $result;
 		}
 
-		public function getActiveCategories(){
-			$querySelect = "SELECT * FROM categories WHERE enable = 'active'";
+		public function getActiveProducts(){
+			$querySelect = "SELECT * FROM products WHERE enable = 'active'";
 			$result = mysqli_query($this->con,$querySelect);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){

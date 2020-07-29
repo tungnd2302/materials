@@ -199,18 +199,10 @@
 		}
 
 		public function resetPassword($request){
-			// echo '<pre>';
-			// print_r($request);
-			// echo '</pre>';
-			// die;
 			$password = md5($request['password']);
 			$userid = $request['id'];
 			$queryUpdate = "UPDATE users SET password  = '$password' where id = $userid";
-			// echo $queryUpdate;
-			// die;
-			// die;
 			$result = mysqli_query($this->con,$queryUpdate);
-			// die;
 			return $result;
 		}
 

@@ -4,6 +4,7 @@
         'depts.id' => 'Tìm kiếm id',
         'users.id' => 'Tìm kiếm id',
         'categories.id' => 'Tìm kiếm id',
+        'products.id' => 'Tìm kiếm id',
         'fullname' => 'Tìm kiếm fullname',
         'name' => 'Tìm kiếm tên',
         'all' => 'Tìm kiếm tất cả',
@@ -14,6 +15,7 @@
         'users' => ['users.id','all','fullname','depts.name','username'],
         'depts' => ['depts.id','all','name'],
         'categories' => ['categories.id','all','name'],
+        'products' => ['products.id','all','name'],
         'default' => ['id','all','name'],
     ];
 

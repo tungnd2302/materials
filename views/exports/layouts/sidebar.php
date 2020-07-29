@@ -15,19 +15,19 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="?controller=categories&action=list" class="nav-link">
+                <a href="?controller=exports&action=list" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                    Quản lý loại vật tư
+                    Quản lý đơn xuất hàng
                 </p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="?controller=products&action=list" class="nav-link">
+                <a href="?controller=customers&action=list" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                    Quản lý vật tư
+                    Quản lý khách hàng
                 </p>
                 </a>
             </li>

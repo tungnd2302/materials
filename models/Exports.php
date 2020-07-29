@@ -1,16 +1,16 @@
 <?php 
-    require_once('models/model.php');
-	class Categories extends model{
+	require_once('models/model.php');
+	class Exports extends model{
 		public $con;
-		public $searchFields = ['name','categories.id'];
+		public $searchFields = ['name','depts.id'];
 		public function __construct()
 		{
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
-			$querySelect = "SELECT * FROM categories";
+			$querySelect = "SELECT * FROM exports";
 			if($request['enableFilter'] !== 'all'){
-				$querySelect .= ' WHERE	categories.enable = ' . "'". $request['enableFilter'] . "'";
+				$querySelect .= ' WHERE	exports.status = ' . "'". $request['enableFilter'] . "'";
 			}
 			$nextQuery = ($request['enableFilter'] !== 'all') ? 'AND' : 'WHERE';
 			if(!empty($request['fieldSearch'])){
@@ -27,7 +27,10 @@
 					$querySelect .= ' )';
 
 				}
-			}
+            }
+            
+            // echo $querySelect;
+            // die;
 			
 			$result = mysqli_query($this->con,$querySelect);
 			$items = [];
@@ -39,7 +42,7 @@
 
 		public function countItems($request = null){
 			$con = $this->connection();
-			$queryCount = "Select count(categories.enable) as count,categories.enable FROM categories";
+			$queryCount = "Select count(exports.status) as count,exports.status FROM exports";
 			// if($request['enableFilter'] !== 'all'){
 			// 	$queryCount .= ' WHERE	users.enable = ' . "'". $request['enableFilter'] . "'";
 			// }
@@ -58,7 +61,7 @@
 					$queryCount .= ' )';
 				}
 			}
-			$queryCount .= ' GROUP BY categories.enable';
+			$queryCount .= ' GROUP BY exports.status';
 			$count = 0;
 			$result = mysqli_query($this->con,$queryCount);
 			if(mysqli_num_rows($result) > 0){
@@ -70,7 +73,7 @@
 
 		public function findOne($request){
 			$id = $request['id'];
-			$queryGet = "SELECT * FROM categories WHERE id =". $id;
+			$queryGet = "SELECT * FROM exports WHERE id =". $id;
 			$result = mysqli_query($this->con,$queryGet);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
@@ -87,7 +90,7 @@
 				$enable = $request['enable'];
 				$created = date('d-m-Y',time());
 				$createdby = "Nguyễn Đức Tùng";
-				$queryInsert = "INSERT INTO categories(name,enable,created,createdby) VALUES ('$name','$enable','$created','$createdby')";
+				$queryInsert = "INSERT INTO exports(name,enable,created,createdby) VALUES ('$name','$enable','$created','$createdby')";
 				// die($queryInsert);
 				$result = mysqli_query($this->con,$queryInsert);
 				return $result;
@@ -98,7 +101,7 @@
 				$name = ucfirst($request['name']);
 				$enable = $request['enable'];
 				$name = ucfirst($request['name']);
-				$queryUpdate = "UPDATE categories SET name = '$name' , enable = '$enable' where id = $id ";
+				$queryUpdate = "UPDATE exports SET name = '$name' , enable = '$enable' where id = $id ";
 				$result = mysqli_query($this->con,$queryUpdate);
 				return $result;
 			}
@@ -108,9 +111,9 @@
 			$name = $request['name'];
 			$id   = $request['id'];
 			if(empty($id)){
-				$queryGet = "SELECT * FROM categories WHERE name ='$name'";
+				$queryGet = "SELECT * FROM exports WHERE name ='$name'";
 			}else{
-				$queryGet = "SELECT * FROM categories WHERE name ='$name' AND id <> $id";
+				$queryGet = "SELECT * FROM exports WHERE name ='$name' AND id <> $id";
 			}
 			$result = mysqli_query($this->con,$queryGet);
 			$item = [];
@@ -123,7 +126,7 @@
 
 		public function delete($request){
 			$id   = $request['id'];
-			$queryDelete = "DELETE FROM categories WHERE ID =". $id;
+			$queryDelete = "DELETE FROM exports WHERE ID =". $id;
 			$result = mysqli_query($this->con,$queryDelete);
 			return $result;
 		}
@@ -132,13 +135,13 @@
 			$enable = $request['enable'];
 			$id   = $request['id'];
 			$updateEnable = ($enable == 'active') ? 'inactive' : 'active';
-			$queryUpdate = "UPDATE categories SET enable = '$updateEnable' where id = $id ";
+			$queryUpdate = "UPDATE exports SET enable = '$updateEnable' where id = $id ";
 			$result = mysqli_query($this->con,$queryUpdate);
 			return $result;
 		}
 
-		public function getActiveCategories(){
-			$querySelect = "SELECT * FROM categories WHERE enable = 'active'";
+		public function getActiveexports(){
+			$querySelect = "SELECT * FROM exports WHERE enable = 'active'";
 			$result = mysqli_query($this->con,$querySelect);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){

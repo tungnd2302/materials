@@ -11,7 +11,7 @@
         
         <div class="row">
             <div class="col-md-12">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
             <div class="card">
               <div class="card-header border-transparent">
                 <h3 class="card-title">
@@ -38,8 +38,41 @@
                    <?php endif; ?>
                     <input type="hidden" name="id" value="<?php echo (isset($item['id'])) ? $item['id'] : ''  ?>">
                     <div class="form-group pr-4 pl-4">
-                        <label for="">Tên loại vật tư</label>
+                        <label for="">Tên vật tư</label>
                         <input type="text" name="name" class="form-control" value="<?php echo isset($_POST['name']) ? $_POST['name'] : $item['name'] ?>">
+                    </div>
+
+                    <div class="form-group pr-4 pl-4">
+                        <label for="">Đơn vị</label>
+                        <input type="text" name="type" class="form-control" value="<?php echo isset($_POST['type']) ? $_POST['type'] : $item['type'] ?>">
+                    </div>
+
+                    <div class="form-group pr-4 pl-4">
+                        <label for="">Loại vật tư</label>
+                        <select name="categoryid"  class="form-control">
+                          <?php foreach($categories as $category): ?>
+                            <?php if(isset($_POST['categoryid'])): ?>
+                                <option value='<?php echo $category['id'] ?>' <?php echo ( $category['id'] == $_POST['categoryid']) ? "selected='true'" : '' ?>><?php echo $category['name'] ?></option>
+                            <?php else: ?>
+                                <option value='<?php echo $category['id'] ?>' <?php echo ( $category['id'] == $item['categoryid']) ? "selected='true'" : '' ?>><?php echo $category['name'] ?></option>
+                            <?php endif; ?>>
+                          <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group pr-4 pl-4">
+                        <label for="">Nhà cung cấp</label>
+                        <input type="text" name="suplier" class="form-control" value="<?php echo isset($_POST['suplier']) ? $_POST['suplier'] : $item['suplier'] ?>">
+                    </div>
+
+                    <div class="form-group pr-4 pl-4">
+                        <label for="">Số lượng nhập</label>
+                        <input type="text" name="quanlity" class="form-control" value="<?php echo isset($_POST['quanlity']) ? $_POST['quantity'] : $item['quanlity'] ?>">
+                    </div>
+
+                    <div class="form-group pr-4 pl-4">
+                        <label for="">Giá nhập</label>
+                        <input type="text" name="price" class="form-control" value="<?php echo isset($_POST['price']) ? $_POST['price'] : $item['price'] ?>">
                     </div>
 
                     <div class="form-group pr-4 pl-4">
@@ -54,6 +87,18 @@
                             <?php endif; ?>>
                         </select>
                     </div>
+
+                    <div class="form-group pr-4 pl-4">
+                        <label for="">Ảnh vật tư</label>
+                        <input type='file' name="thumb" class="form-control">
+                    </div>
+                    <?php if(!empty($item['thumb'])): ?>
+                      <div class="form-group pr-4 pl-4">
+                        <div style="width:150px;height: 150px; border: 1px solid #333;">
+                              <img src="assets/materials/images/products/<?php echo trim($item['thumb']) ?>" class="img-fluid" alt="">
+                        </div>
+                      </div>
+                    <?php endif; ?>
                
               </div>
               <div class="card-footer">

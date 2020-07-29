@@ -48,15 +48,48 @@
 
             if($controllerName == 'categories'){
                 $name = $request['name'];
+                
                 if(strlen($name) < 4){
-                    return 'Tên loại mặt hàng không dưới 4 ký tự';
+                    return 'Tên loại vật liệu không dưới 4 ký tự';
                 }else{
                     $categories = new Categories;
                     $item = $categories->checkUniqueName($request);
                     if(count($item) > 0){
-                        return 'Tồn tại loại mặt hàng';
+                        return 'Tồn tại loại vật liệu';
                     }
                 }
+            }
+
+            if($controllerName == 'products'){
+                $name = $request['name'];
+                $price = $request['price'];
+                $quanlity = $request['quanlity'];
+                if(strlen($name) < 4){
+                    return 'Tên vật liệu không dưới 4 ký tự';
+                }else{
+                    $categories = new Categories;
+                    $item = $categories->checkUniqueName($request);
+                    if(count($item) > 0){
+                        return 'Tồn tại vật liệu';
+                    }
+                }
+
+                $typeThumbAccept = ['image/jpeg','image/png'];
+                if(!empty($request['thumb']['name'])){
+                    if(!in_array($request['thumb']['type'],$typeThumbAccept)){
+                        return 'Ảnh tải lên chưa đúng định dạng';
+                    }
+                }
+
+                if(!is_numeric($quanlity)){
+                    return 'Số lượng nhập phải là số';
+                }
+
+                if(!is_numeric($price)){
+                    return 'Số lượng nhập phải là số';
+                }
+
+
             }
 
 

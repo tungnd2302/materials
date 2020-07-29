@@ -5,6 +5,8 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+<!-- Select2 -->
+<script src="assets/template/plugins/select2/js/select2.full.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="assets/template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
