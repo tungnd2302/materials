@@ -3,6 +3,7 @@
     require_once('controllers/Validate.php');
     require_once('models/exports.php');
     require_once('models/products.php');
+    require_once('models/export_details.php');
 	class ExportsController extends Controller{
         public $displayName = 'Quản lý Xuất hàng';
         public $listName = 'Xuất hàng';
@@ -38,13 +39,27 @@
             $products = $productsModel->getActiveProducts();
             if(isset($_POST['create'])){
                 $request = $_POST;
-                $fault = Validate::store($request,$this->controllerName);
-                if(!empty($fault)){
-                    $_SESSION['error'] = $fault;
-                    require_once($this->pathView.'create.php');
-                    return;
+                $products = array_combine($request['quantity'],$request['name']);
+                
+                $products_array = [];
+                $totalPrice = 0;
+                foreach($request['name'] as $key => $name){
+                    $product = $productsModel->findProductByName($name);
+                    $products_array[$product['id']] = $request['quantity'][$key];
+                    $totalPrice += $product['price'] * $request['quantity'][$key];
                 }
+                // echo $totalPrice;
+              
+                unset($request['name']);
+                unset($request['quantity']);
+                unset($request['create']);
+                $request['products'] = $products_array;
+                $request['price'] = $totalPrice;
                 $lastid =  $this->model->store($request,'create');
+                $request['lastid'] = $lastid;
+                $export_details_model = new Export_details();
+                $export_details_model->store($request,'create');
+                
                 header('location:?controller='.$this->controllerName.'&action=list');
                 return;
             }

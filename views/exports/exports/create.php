@@ -44,25 +44,21 @@
                                 <span>Thông tin về vật tư</span>
                             </div>
                             <div class="card card-body material-card-body">
-                              <div id="material" class="total-material">
+                              <div class="total-material">
                                 <div class="form-group">
                                   <label for="">Tên vật tư</label>
-                                  <select name="" id="" class="form-control" >
-                                    <?php foreach($products as $product): ?>
-                                      <option value="<?php echo $product['id'] ?>"><?php echo $product['name'] ?></option>
-                                    <?php endforeach; ?>
-                                  </select>
+                                  <input name="name[]" type="text" class="tags1 form-control" >
+                                  <!-- <input type="text" class="tags2 form-control" autocomplete="off"> -->
                                 </div>
 
                                 <div class="form-group">
                                   <label for="">Số lượng</label>
-                                  <input type="text" name="quantity" class="form-control" value="">
+                                  <input type="text" name="quantity[]" class="form-control">
                                 </div>
                               </div>
                               <!-- <div class="material-card-body"></div> -->
-                            </div>
 
-                            
+                            </div>
                             <div class="card-footer">
                               <a class="btn btn-danger" id="add-materials" >
                                 <span style="color:aliceblue">Thêm vật tư</span> 
@@ -82,17 +78,17 @@
                           <div class="card card-body">
                             <div class="form-group">
                               <label for="">Họ tên người nhận</label>
-                              <input type="text" name="name[]" class="form-control" value="">
+                              <input type="text" name="fullname" class="form-control" value="">
                             </div>
 
                             <div class="form-group">
                               <label for="">Địa chỉ</label>
-                              <input type="text" name="quantity" class="form-control" value="">
+                              <input type="text" name="address" class="form-control" value="">
                             </div>
 
                             <div class="form-group">
                               <label for="">Số điện thoại</label>
-                              <input type="text" name="quantity" class="form-control" value="">
+                              <input type="text" name="phone" class="form-control" value="">
                             </div>
                             <!-- <div class="material-card-body"></div> -->
                           </div>

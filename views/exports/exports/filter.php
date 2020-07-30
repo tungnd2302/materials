@@ -13,7 +13,7 @@
     $countInactive = 0;
     if($counts > 0){
         foreach($counts as $count){
-            if($count['enable'] == 'active'){
+            if($count['status'] == 'deliveried'){
                 $countActive = $count['count'];
             }else{
                 $countInactive = $count['count'];

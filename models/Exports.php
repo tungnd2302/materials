@@ -86,14 +86,19 @@
 
 		public function store($request,$action){
 			if($action == 'create'){
-				$name = ucfirst($request['name']);
-				$enable = $request['enable'];
+				$fullname = ucfirst($request['fullname']);
+				$address = ucfirst($request['address']);
+				$phone = ucfirst($request['phone']);
+				$status = 'notdeliveried';
+				$price = $request['price'];
 				$created = date('d-m-Y',time());
 				$createdby = "Nguyễn Đức Tùng";
-				$queryInsert = "INSERT INTO exports(name,enable,created,createdby) VALUES ('$name','$enable','$created','$createdby')";
+				$queryInsert = "INSERT INTO exports(fullname,address,phone,price,status,created,createdby) 
+											VALUES ('$fullname','$address','$phone','$price','$status','$created','$createdby')";
 				// die($queryInsert);
 				$result = mysqli_query($this->con,$queryInsert);
-				return $result;
+				$last_id = mysqli_insert_id($this->con);
+				return $last_id;
 			}
 
 			if($action == 'update'){

@@ -164,6 +164,21 @@
 			return $items;
 		}
 
+		public function findProductByName($name){
+			$querySelect = "SELECT id,price FROM products WHERE name = '" . $name . "' and enable = 'active'";
+			$result = mysqli_query($this->con,$querySelect);
+			$items = [];
+			if(mysqli_num_rows($result) > 0){
+				$items = mysqli_fetch_all($result, MYSQLI_ASSOC);
+			}
+			// echo '<pre>';
+			// print_r($items[0]);
+			// echo '</pre>';
+			// die;
+			return $items[0];
+		}
+		
+
 
 	}
 ?>
