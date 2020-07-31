@@ -45,13 +45,9 @@
                                 <td>
                                   <?php 
                                       $viewLink = "?controller=" . $this->controllerName . "&action=view&id=" .$item['exportid'];
-                                      $editDelete = "?controller=" . $this->controllerName . "&action=delete&id=" .$item['id'];
                                   ?>
                                   <a href="<?php echo $viewLink ?>" class="btn btn-danger">
                                     <i class="fa fa-eye"></i>
-                                  </a>
-                                  <a href="<?php echo $editDelete ?>" class="btn btn-success">
-                                    <i class="fa fa-trash"></i>
                                   </a>
                                 </td>
                             </tr>

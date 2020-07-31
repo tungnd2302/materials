@@ -14,8 +14,22 @@
 			}
 		}
 
-		public function checkInsert(){
-			$_SESSION['user']['rolename'] == 'teamlead';
+		public function checkAction(){
+			if($_GET['action'] == 'create' && $_SESSION['user']['rolename'] !== 'teamlead'){
+				header("location:?controller=dashboard&action=index");
+				exit();
+			}
+
+			if($_GET['action'] == 'update' && $_SESSION['user']['rolename'] !== 'teamlead'){
+				header("location:?controller=dashboard&action=index");
+				exit();
+			}
+
+			if($_GET['action'] == 'delete' && $_SESSION['user']['rolename'] !== 'teamlead'){
+				header("location:?controller=dashboard&action=index");
+				exit();
+			}
+
 		}
 		// public function __construct(){
 			

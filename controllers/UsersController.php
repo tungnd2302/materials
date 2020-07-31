@@ -11,6 +11,7 @@
         public function __construct()
         {
             $this->checkLogin();
+            $this->checkAction();
             $this->model = new users;
         }
 		public function list(){

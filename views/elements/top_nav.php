@@ -23,12 +23,10 @@
                 </p>
           </li>
           <li class="user-footer d-flex p-2">
-                <div class="float-left">
+                <!-- <div class="float-left">
                   <a href="?controller=profile&action=view" class="btn btn-default btn-flat">Cá nhân</a>
-                </div>
-                <div class="ml-auto">
-                <a href="?controller=dashboard&action=logout" class="btn btn-default btn-flat">Đăng xuất</a>
-                </div>
+                </div> -->
+                <a href="?controller=dashboard&action=logout" class="btn btn-default btn-flat w-100">Đăng xuất</a>
               </li>
         </ul>
       </li>

@@ -22,7 +22,9 @@
                     <th>Trạng thái</th>
                     <th>Ngày tạo</th>
                     <th>Người tạo</th>
+                    <?php if($_SESSION['user']['rolename'] == 'teamlead'): ?>
                     <th>Thao tác</th>
+                    <?php endif; ?>
                   </thead>
                   <tbody>
                     <?php if(count($items) > 0): ?>
@@ -39,6 +41,7 @@
                                 <td><?php echo $status  ?></td>
                                 <td><?php echo $created  ?></td>
                                 <td><?php echo $createdby  ?></td>
+                                <?php if($_SESSION['user']['rolename'] == 'teamlead'): ?>
                                 <td>
                                   <?php 
                                       $editLink = "?controller=" . $this->controllerName . "&action=update&id=" .$item['id'];
@@ -57,6 +60,7 @@
                                     <i class="fa fa-trash"></i>
                                   </a>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>

@@ -23,7 +23,9 @@
                     <th>Nhà cung cấp</th>
                     <th>Số lượng tồn</th>
                     <th>Giá nhập vào</th>
+                    <?php if($_SESSION['user']['rolename'] == 'teamlead'): ?>
                     <th>Thao tác</th>
+                    <?php endif; ?>
                   </thead>
                   <tbody>
                     <?php if(count($items) > 0): ?>
@@ -42,23 +44,25 @@
                                 <td><?php echo $status  ?></td>
                                 <td><?php echo $quanlity  ?></td>
                                 <td><?php echo $price  ?></td>
-                                <td>
-                                  <?php 
-                                      $editLink = "?controller=" . $this->controllerName . "&action=update&id=" .$item['id'];
-                                      $editChangeStatus = "?controller=" . $this->controllerName . "&action=changeStatus&id=" .$item['id'] . "&enable=" . $item['enable'];
-                                      $editDelete = "?controller=" . $this->controllerName . "&action=delete&id=" .$item['id'];
-                                  ?>
+                                <?php if($_SESSION['user']['rolename'] == 'teamlead'): ?>
+                                  <td>
+                                    <?php 
+                                        $editLink = "?controller=" . $this->controllerName . "&action=update&id=" .$item['id'];
+                                        $editChangeStatus = "?controller=" . $this->controllerName . "&action=changeStatus&id=" .$item['id'] . "&enable=" . $item['enable'];
+                                        $editDelete = "?controller=" . $this->controllerName . "&action=delete&id=" .$item['id'];
+                                    ?>
                                   
-                                  <a href="<?php echo $editLink ?>" class="btn btn-primary">
-                                    <i class="fa fa-pencil-alt"></i>
-                                  </a>
-                                  <a href="<?php echo $editChangeStatus ?>" class="btn btn-danger">
-                                    <i class="fa fa-sync"></i>
-                                  </a>
-                                  <a href="<?php echo $editDelete ?>" class="btn btn-success">
-                                    <i class="fa fa-trash"></i>
-                                  </a>
-                                </td>
+                                      <a href="<?php echo $editLink ?>" class="btn btn-primary">
+                                        <i class="fa fa-pencil-alt"></i>
+                                      </a>
+                                      <a href="<?php echo $editChangeStatus ?>" class="btn btn-danger">
+                                        <i class="fa fa-sync"></i>
+                                      </a>
+                                      <a href="<?php echo $editDelete ?>" class="btn btn-success">
+                                        <i class="fa fa-trash"></i>
+                                      </a>
+                                  </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>

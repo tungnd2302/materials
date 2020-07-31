@@ -13,6 +13,7 @@
         public function __construct()
         {
             $this->checkLogin();
+            $this->checkAction();
             $this->model = new products;
         }
         public function list()

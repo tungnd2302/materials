@@ -18,14 +18,13 @@
 				$password = $_POST['password'];
 				$authHomeModel = new home();
                 $auth = $authHomeModel->loginAuth($username,md5($password));
-                if($auth == 0){
+                if($auth == '0'){
                     $userModel = new Users;
                     $user_info = $userModel->findUserByUsername($username);
                     $_SESSION['user'] = $user_info;
-
                     header("location:?controller=dashboard&action=index");
                     exit();
-                }
+                } 
 			}
 			require_once($this->pathView."login.php");
 		}

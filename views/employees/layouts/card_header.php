@@ -2,9 +2,11 @@
     <h3 class="card-title">
         Danh sách <?php echo $this->listName ?>
         &nbsp
-        <a href="?controller=<?php echo $this->controllerName ?>&action=create" >
-        <i class="fa fa-plus-circle"></i>
-        </a>
+        <?php if($_SESSION['user']['rolename'] == 'teamlead'): ?>
+            <a href="?controller=<?php echo $this->controllerName ?>&action=create" >
+            <i class="fa fa-plus-circle"></i>
+            </a>
+        <?php endif; ?>
     </h3>
 
     <div class="card-tools">
