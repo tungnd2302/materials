@@ -11,6 +11,7 @@
 
         public function __construct()
         {
+            $this->checkLogin();
             $this->model = new depts;
         }
         public function list()

@@ -13,6 +13,7 @@
 
         public function __construct()
         {
+            $this->checkLogin();
             $this->model = new exports;
         }
         public function list()

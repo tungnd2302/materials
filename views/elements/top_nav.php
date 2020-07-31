@@ -14,19 +14,20 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <li class="user-header">
-                <img src="assets/template/dist/img/user2-160x160.jpg" class="img-circle img-fluid" alt="User Image">
+                <img src="assets/materials/images/users/<?php echo trim($_SESSION['user']['thumb']) ?>" class="img-circle img-fluid" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?php echo $_SESSION['user']['fullname'] ?>
+                  <br>
+                  <small><?php echo ucfirst($_SESSION['user']['rolename']) ?> trong phòng ban <?php echo ucfirst($_SESSION['user']['deptname']) ?></small>
                 </p>
           </li>
           <li class="user-footer d-flex p-2">
                 <div class="float-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="?controller=profile&action=view" class="btn btn-default btn-flat">Cá nhân</a>
                 </div>
                 <div class="ml-auto">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                <a href="?controller=dashboard&action=logout" class="btn btn-default btn-flat">Đăng xuất</a>
                 </div>
               </li>
         </ul>

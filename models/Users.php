@@ -9,10 +9,6 @@
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
-			// echo '<pre>';
-			// print_r($request);
-			// echo '</pre>';
-			// die;
 			$con = $this->connection();
 			$querySelect = "SELECT username,fullname,
 									role as rolename,
@@ -213,6 +209,25 @@
 			$queryUpdate = "UPDATE users SET enable = '$updateEnable' where id = $id ";
 			$result = mysqli_query($this->con,$queryUpdate);
 			return $result;
+		}
+
+		public function findUserByUsername($username){
+			$querySelect = "SELECT username,fullname,
+									role as rolename,
+									name as deptname,
+									thumb,
+									users.id as id
+							FROM employees 
+							LEFT JOIN users ON users.id = employees.userid 
+							LEFT JOIN depts ON depts.id = employees.deptid
+							WHERE username = '$username'";
+			$result = mysqli_query($this->con,$querySelect);
+			$user = [];
+			if(mysqli_num_rows($result) > 0){
+				$user = mysqli_fetch_all($result, MYSQLI_ASSOC);
+			}
+			return $user[0];
+
 		}
 
 	}

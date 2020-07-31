@@ -10,6 +10,7 @@
         public $model;
         public function __construct()
         {
+            $this->checkLogin();
             $this->model = new users;
         }
 		public function list(){

@@ -12,6 +12,7 @@
 
         public function __construct()
         {
+            $this->checkLogin();
             $this->model = new products;
         }
         public function list()
