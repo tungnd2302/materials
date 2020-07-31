@@ -22,15 +22,6 @@
                 </p>
                 </a>
             </li>
-
-            <li class="nav-item">
-                <a href="?controller=customers&action=list" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Quản lý khách hàng
-                </p>
-                </a>
-            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

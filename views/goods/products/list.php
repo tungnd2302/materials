@@ -19,6 +19,7 @@
                   <thead>
                     <th>#</th>
                     <th>Tên vật tư</th>
+                    <th>Loại vật tư</th>
                     <th>Nhà cung cấp</th>
                     <th>Số lượng tồn</th>
                     <th>Giá nhập vào</th>
@@ -30,12 +31,14 @@
                             <tr>
                               <?php
                                   $name       = $item['name'];
+                                  $category_name       = $item['category_name'];
                                   $status     = ($item['enable'] == 'active') ? 'Kích hoạt' : 'Không kích hoạt';
                                   $quanlity   = $item['quanlity'];
                                   $price      = $item['price'];
                               ?>
                                 <td><?php echo $key + 1  ?></td>
                                 <td><?php echo $name  ?></td>
+                                <td><?php echo $category_name  ?></td>
                                 <td><?php echo $status  ?></td>
                                 <td><?php echo $quanlity  ?></td>
                                 <td><?php echo $price  ?></td>

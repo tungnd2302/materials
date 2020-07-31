@@ -18,8 +18,9 @@
                 <table class="table table-border">
                   <thead>
                     <th>#</th>
-                    <th>Mã xuất hàng</th>
+                    <th>Mã đơn hàng</th>
                     <th>Tổng giá trị hàng</th>
+                    <th>Trạng thái hàng</th>
                     <th>Ngày tạo</th>
                     <th>Người tạo</th>
                     <th>Thao tác</th>
@@ -29,29 +30,25 @@
                         <?php foreach($items as $key => $item): ?>
                             <tr>
                               <?php
-                                  $name = $item['name'];
-                                  $status   = ($item['enable'] == 'active') ? 'Kích hoạt' : 'Không kích hoạt';
+                                  $exportid = $item['exportid'];
+                                  $status   = ($item['status'] == 'notdeliveried') ? 'Chưa được giao' : 'Đã giao';
+                                  $price   = $item['price'];
                                   $created   = $item['created'];
                                   $createdby   = $item['createdby'];
                               ?>
                                 <td><?php echo $key + 1  ?></td>
-                                <td><?php echo $name  ?></td>
+                                <td><?php echo $exportid  ?></td>
+                                <td><?php echo $price  ?></td>
                                 <td><?php echo $status  ?></td>
                                 <td><?php echo $created  ?></td>
                                 <td><?php echo $createdby  ?></td>
                                 <td>
                                   <?php 
-                                      $editLink = "?controller=" . $this->controllerName . "&action=update&id=" .$item['id'];
-                                      $editChangeStatus = "?controller=" . $this->controllerName . "&action=changeStatus&id=" .$item['id'] . "&enable=" . $item['enable'];
+                                      $viewLink = "?controller=" . $this->controllerName . "&action=view&id=" .$item['exportid'];
                                       $editDelete = "?controller=" . $this->controllerName . "&action=delete&id=" .$item['id'];
-
                                   ?>
-                                  
-                                  <a href="<?php echo $editLink ?>" class="btn btn-primary">
-                                    <i class="fa fa-pencil-alt"></i>
-                                  </a>
-                                  <a href="<?php echo $editChangeStatus ?>" class="btn btn-danger">
-                                    <i class="fa fa-sync"></i>
+                                  <a href="<?php echo $viewLink ?>" class="btn btn-danger">
+                                    <i class="fa fa-eye"></i>
                                   </a>
                                   <a href="<?php echo $editDelete ?>" class="btn btn-success">
                                     <i class="fa fa-trash"></i>

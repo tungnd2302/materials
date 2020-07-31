@@ -10,14 +10,16 @@
 
 		public function findOne($request){
 			$id = $request['id'];
-			$queryGet = "SELECT * FROM exports WHERE id =". $id;
+			$queryGet = "SELECT id,productid,quantity FROM export_details WHERE exportid ='$id'";
+			// echo $queryGet;
+			// die;
 			$result = mysqli_query($this->con,$queryGet);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
 				$itemsArray = mysqli_fetch_all($result,MYSQLI_ASSOC);
-				$item = $itemsArray[0];
+				$items = $itemsArray;
 			}
-			return $item;
+			return $items;
 		}
 		
 
@@ -33,13 +35,15 @@
 
 			if($action == 'create'){
                 $queryInsert = "INSERT INTO export_details(exportid,productid,quantity) VALUES";
-                foreach($products as $key => $productid){
-                    $queryInsert .= "($exportid,$productid,$key)";
+                foreach($products as $productid => $key){
+                    $queryInsert .= "('$exportid',$productid,$key)";
                     if($i !== $len_products){
                         $queryInsert .= ' , ';
                     }
                     $i++;
-                }
+				}
+				// echo $queryInsert;
+				// die;
 				$result = mysqli_query($this->con,$queryInsert);
 				return $result;
 			}

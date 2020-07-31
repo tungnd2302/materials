@@ -2,12 +2,14 @@
 	require_once('models/model.php');
 	class Exports extends model{
 		public $con;
-		public $searchFields = ['name','depts.id'];
+		public $searchFields = ['exportid'];
 		public function __construct()
 		{
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
+			// echo $request['enableFilter'];
+			// die;
 			$querySelect = "SELECT * FROM exports";
 			if($request['enableFilter'] !== 'all'){
 				$querySelect .= ' WHERE	exports.status = ' . "'". $request['enableFilter'] . "'";
@@ -73,7 +75,7 @@
 
 		public function findOne($request){
 			$id = $request['id'];
-			$queryGet = "SELECT * FROM exports WHERE id =". $id;
+			$queryGet = "SELECT * FROM exports WHERE exportid ='$id'" ;
 			$result = mysqli_query($this->con,$queryGet);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
@@ -93,22 +95,12 @@
 				$price = $request['price'];
 				$created = date('d-m-Y',time());
 				$createdby = "Nguyễn Đức Tùng";
-				$queryInsert = "INSERT INTO exports(fullname,address,phone,price,status,created,createdby) 
-											VALUES ('$fullname','$address','$phone','$price','$status','$created','$createdby')";
+				$exportid  = "TCL" . time();
+				$queryInsert = "INSERT INTO exports(exportid,fullname,address,phone,price,status,created,createdby) 
+											VALUES ('$exportid','$fullname','$address','$phone','$price','$status','$created','$createdby')";
 				// die($queryInsert);
 				$result = mysqli_query($this->con,$queryInsert);
-				$last_id = mysqli_insert_id($this->con);
-				return $last_id;
-			}
-
-			if($action == 'update'){
-				$id = $request['id'];
-				$name = ucfirst($request['name']);
-				$enable = $request['enable'];
-				$name = ucfirst($request['name']);
-				$queryUpdate = "UPDATE exports SET name = '$name' , enable = '$enable' where id = $id ";
-				$result = mysqli_query($this->con,$queryUpdate);
-				return $result;
+				return $exportid;
 			}
 		}
 

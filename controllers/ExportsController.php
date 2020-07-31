@@ -45,8 +45,41 @@
                 $totalPrice = 0;
                 foreach($request['name'] as $key => $name){
                     $product = $productsModel->findProductByName($name);
+                    // echo '<pre>';
+                    // print_r($product);
+                    // echo '<pre>';
+                    // die;
+                    // ========== VALIDATE Tên sản phẩm ==========
+                    if($product == "Not Found"){
+                        $_SESSION['error'] = "Sản phẩm " . $name . " không tồn tại trong hệ thống";
+                        $products = $productsModel->getActiveProducts();
+                        require_once($this->pathView.'create.php');
+                        return;
+                    }
+                    // ========== PASS VALIDATE ==============
+
+                    // Tính tổng giá
+                    // $request['quantity'][$key] : Số lượng
+                    // $product['price']          : Giá sản phẩm
                     $products_array[$product['id']] = $request['quantity'][$key];
                     $totalPrice += $product['price'] * $request['quantity'][$key];
+                    // Trừ số lượng trong kho
+                    // remainProductQuanlity : Số lượng còn lại ở trong kho là: 
+                    $remainProductQuanlity = $product['quanlity'] - $request['quantity'][$key];
+
+                    // ========== VALIDATE SỐ LƯỢNG ==========
+                    if($remainProductQuanlity < 0){
+                        $_SESSION['error'] = "Số lượng mua của sản phẩm " . $name . " đã nhiều hơn số lượng trong kho";
+                        $products = $productsModel->getActiveProducts();
+                        require_once($this->pathView.'create.php');
+                        return;
+                    }
+                    // ========== PASS VALIDATE ==============
+                    $myRequest = [
+                        'id' => $product['id'],
+                        'quanlity' => $remainProductQuanlity
+                    ];
+                    $productsModel->updateAfterGetProduct($myRequest);
                 }
                 // echo $totalPrice;
               
@@ -59,6 +92,8 @@
                 $request['lastid'] = $lastid;
                 $export_details_model = new Export_details();
                 $export_details_model->store($request,'create');
+
+                // $productsModel->getProductsByQuanlity($request);
                 
                 header('location:?controller='.$this->controllerName.'&action=list');
                 return;
@@ -66,49 +101,31 @@
             require_once($this->pathView.'create.php');
         }
 
-        public function update(){
-            $request = [
-                'id' => $_GET['id']
-            ];
-            $item =  $this->model->findOne($request);
-            $breadcrumb = "Cập nhật";
-            if(isset($_POST['update'])){
-                $id     = isset($_POST['id']) ? $_POST['id'] : '';
-                $request = $_POST;
-                $fault = Validate::store($request,$this->controllerName);
-                if(!empty($fault)){
-                    $_SESSION['error'] = $fault;
-                    require_once($this->pathView.'update.php');
-                    return;
-                }
-                $lastid =  $this->model->store($request,'update');
-                header('location:?controller='.$this->controllerName.'&action=list');
-                return;
+        public function view(){
+            $breadcrumb = "Chi tiết đơn hàng";
+            $request['id'] = $_GET['id'];
+            $export_details_model = new Export_details();
+            $product_info = $export_details_model->findOne($request);
+            $item         = $this->model->findOne($request);
+
+            $productsModel = new Products;
+            // $productArr = [];
+            $export_total = 0;
+            foreach($product_info as $key => $value){
+                $request['id'] = $value['productid'];
+                $product = $productsModel->findOne($request);
+                $productArr[$key]['product_name'] = $product['name'];
+                $productArr[$key]['category_name'] = $product['category_name'];
+                $productArr[$key]['price'] = $product['price'];
+                $productArr[$key]['quantity'] = $value['quantity'];
+                $productArr[$key]['total'] = $value['quantity'] * $product['price'];
+                $export_total += $value['quantity'] * $product['price'];
             }
-            require_once($this->pathView.'update.php');
+            $productArr[$key]['export_total'] = $export_total;
+            
+            require_once($this->pathView.'view.php');
         }
 
-        public function delete(){
-            $id     =   $_GET['id'];
-            $request = [
-                'id'     => $id
-            ];
-            $item =  $this->model->delete($request);
-            header('location:?controller='.$this->controllerName.'&action=list');
-            return;
-        }
-
-        public function changeStatus(){
-            $id     =   $_GET['id'];
-            $enable     =   $_GET['enable'];
-            $request = [
-                'id'     => $id,
-                'enable'     => $enable,
-            ];
-            $item =  $this->model->changeStatus($request);
-            header('location:?controller='.$this->controllerName.'&action=list');
-            return;
-        }
 	}
 
 ?>

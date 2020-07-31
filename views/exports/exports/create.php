@@ -29,7 +29,7 @@
               </div>
               <div class="card-body pl-3 pr-3">
                    <?php  if(isset($_SESSION['error'])): ?>
-                    <div class="form-group pr-4 pl-4 mt-3">
+                    <div class="form-group mt-3">
                       <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <strong>Không thành công!</strong> <?php echo $_SESSION['error']; unset($_SESSION['error']) ?>
@@ -124,3 +124,4 @@
   <!-- /.control-sidebar -->
 </div>
 <?php  require_once('views/exports/layouts/footer.php'); ?>
+<?php  require_once('views/exports/layouts/create_script.php'); ?>

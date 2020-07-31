@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 30, 2020 lúc 07:42 AM
--- Phiên bản máy phục vụ: 10.1.36-MariaDB
--- Phiên bản PHP: 7.2.11
+-- Thời gian đã tạo: Th7 31, 2020 lúc 04:20 AM
+-- Phiên bản máy phục vụ: 10.4.11-MariaDB
+-- Phiên bản PHP: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -133,11 +132,12 @@ INSERT INTO `employees` (`id`, `userid`, `fullname`, `deptid`, `role`, `thumb`, 
 
 CREATE TABLE `exports` (
   `id` int(11) NOT NULL,
+  `exportid` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `fullname` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `price` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` varchar(29) COLLATE utf8_unicode_ci NOT NULL,
   `created` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `createdby` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -146,8 +146,9 @@ CREATE TABLE `exports` (
 -- Đang đổ dữ liệu cho bảng `exports`
 --
 
-INSERT INTO `exports` (`id`, `fullname`, `address`, `phone`, `price`, `status`, `created`, `createdby`) VALUES
-(13, 'Nguyễn Đức Tùng', 'ABC', '232', '170000', 0, '29-07-2020', 'Nguyễn Đức Tùng');
+INSERT INTO `exports` (`id`, `exportid`, `fullname`, `address`, `phone`, `price`, `status`, `created`, `createdby`) VALUES
+(27, 'TCL1596096759', 'Nguyễn Đức Anh', 'Haf Noi', '0966637498', '340000', 'notdeliveried', '30-07-2020', 'Nguyễn Đức Tùng'),
+(28, 'TCL1596122452', 'Nguyễn Khasnh Long', 'Nam Định', '0968425753', '100000', 'notdeliveried', '30-07-2020', 'Nguyễn Đức Tùng');
 
 -- --------------------------------------------------------
 
@@ -157,7 +158,7 @@ INSERT INTO `exports` (`id`, `fullname`, `address`, `phone`, `price`, `status`, 
 
 CREATE TABLE `export_details` (
   `id` int(11) NOT NULL,
-  `exportid` int(11) NOT NULL,
+  `exportid` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `productid` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -167,8 +168,9 @@ CREATE TABLE `export_details` (
 --
 
 INSERT INTO `export_details` (`id`, `exportid`, `productid`, `quantity`) VALUES
-(3, 13, 4, 12),
-(4, 13, 1, 10);
+(9, 'TCL1596096759', 10, 34),
+(10, 'TCL1596122452', 12, 2),
+(11, 'TCL1596122452', 10, 2);
 
 -- --------------------------------------------------------
 
@@ -195,9 +197,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`name`, `type`, `categoryid`, `suplier`, `quanlity`, `price`, `thumb`, `enable`, `created`, `createdby`, `id`) VALUES
-('Ống nước', 'cái', 1, 'CTy a', '123123', 10000, '1595995846Screenshot (23).png', 'active', '29-07-2020', 'Nguyễn Đức Tùng', 10),
-('Gạch', 'cái', 1, 'CTy a', '12', 20000, '1595996534Screenshot (12).png', 'inactive', '29-07-2020', 'Nguyễn Đức Tùng', 11),
-('Đèn tuýt', 'Chiếc', 4, '123123', '321321', 40000, '', 'active', '29-07-2020', 'Nguyễn Đức Tùng', 12);
+('Ống nước', 'cái', 1, 'CTy a', '661', 10000, '1595995846Screenshot (23).png', 'active', '29-07-2020', 'Nguyễn Đức Tùng', 10),
+('Gạch', 'cái', 1, 'CTy a', '20', 20000, '1595996534Screenshot (12).png', 'active', '29-07-2020', 'Nguyễn Đức Tùng', 11),
+('Đèn tuýt', 'Chiếc', 4, '123123', '18', 40000, '', 'active', '29-07-2020', 'Nguyễn Đức Tùng', 12);
 
 -- --------------------------------------------------------
 
@@ -322,13 +324,13 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT cho bảng `exports`
 --
 ALTER TABLE `exports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT cho bảng `export_details`
 --
 ALTER TABLE `export_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `products`

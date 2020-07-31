@@ -8,7 +8,8 @@
 			$this->con = $this->connection();
 		}
         public function getAll($request = null){
-			$querySelect = "SELECT * FROM products";
+			$querySelect = "SELECT products.name as name,categories.name as category_name,products.id,products.enable,suplier,quanlity,price FROM products
+							LEFT JOIN categories ON products.categoryid = categories.id";
 			if($request['enableFilter'] !== 'all'){
 				$querySelect .= ' WHERE	products.enable = ' . "'". $request['enableFilter'] . "'";
 			}
@@ -28,7 +29,8 @@
 
 				}
 			}
-			
+			// echo $querySelect;
+			// die;
 			$result = mysqli_query($this->con,$querySelect);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
@@ -39,7 +41,8 @@
 
 		public function countItems($request = null){
 			$con = $this->connection();
-			$queryCount = "Select count(products.enable) as count,products.enable FROM products";
+			$queryCount = "Select count(products.enable) as count,products.enable FROM products
+							LEFT JOIN categories ON products.categoryid = categories.id";
 			// if($request['enableFilter'] !== 'all'){
 			// 	$queryCount .= ' WHERE	users.enable = ' . "'". $request['enableFilter'] . "'";
 			// }
@@ -70,9 +73,10 @@
 
 		public function findOne($request){
 			$id = $request['id'];
-			$queryGet = "SELECT * FROM products WHERE id =". $id;
+			$queryGet = "SELECT products.name as name,categories.name as category_name,products.id,products.enable,suplier,quanlity,price FROM products
+			LEFT JOIN categories ON products.categoryid = categories.id WHERE products.id =". $id;
 			$result = mysqli_query($this->con,$queryGet);
-			$items = [];
+			$item = [];
 			if(mysqli_num_rows($result) > 0){
 				$itemsArray = mysqli_fetch_all($result,MYSQLI_ASSOC);
 				$item = $itemsArray[0];
@@ -118,6 +122,10 @@
 				// die;
 				$result = mysqli_query($this->con,$queryUpdate);
 				return $result;
+			}
+
+			if($action == 'updateAfterGetProduct'){
+				
 			}
 		}
 
@@ -165,17 +173,29 @@
 		}
 
 		public function findProductByName($name){
-			$querySelect = "SELECT id,price FROM products WHERE name = '" . $name . "' and enable = 'active'";
+			$querySelect = "SELECT id,price,quanlity FROM products WHERE name = '" . $name . "' and enable = 'active'";
 			$result = mysqli_query($this->con,$querySelect);
 			$items = [];
 			if(mysqli_num_rows($result) > 0){
 				$items = mysqli_fetch_all($result, MYSQLI_ASSOC);
+			}else{
+				return 'Not Found';
 			}
 			// echo '<pre>';
 			// print_r($items[0]);
 			// echo '</pre>';
 			// die;
 			return $items[0];
+		}
+
+		public function updateAfterGetProduct($request){
+			$id = $request['id'];
+			$quanlity = $request['quanlity'];
+			$queryUpdate = "UPDATE products SET quanlity = '$quanlity' where id = $id ";
+			// echo $queryUpdate;
+			// die;
+			$result = mysqli_query($this->con,$queryUpdate);
+			return $result;
 		}
 		
 
